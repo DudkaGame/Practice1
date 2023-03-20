@@ -57,11 +57,11 @@ void MainWindow::open(){ //функция открыть
 
 void MainWindow::New(){ // функция создать
     flagSave = 0; flagChange = 0;
-    ba.clear(); ui->textEdit->clear(); this->setWindowTitle("NotePad  ©  ПОНОМАРЕВ ДИМИТРИЙ"); return;
+    ba.clear(); ui->textEdit->clear(); return;
 }
 
 void MainWindow::save(){ // функция сохраниить
-    flagSave = 1; flagSave = 0;
+    flagSave = 1; flagChange = 0;
     QString fileName; // путь к документу
     QFile file;
     file.setFileName(fileName); //связываем с файлом на диске
@@ -128,8 +128,6 @@ void MainWindow::on_pushButton_clicked()
 // __________________________ ОПИСЫВАЕМ БЛОК ИНТЕРФЕЙСА
 
 void MainWindow::on_new_d_triggered(){ //кнопка new
-    QFileDialog dialog(this);
-        dialog.setFileMode(QFileDialog::ExistingFile);
     if (flagSave && flagChange){ // сохранен -> изменен
         reply = QMessageBox::question(this, "Предупреждение",
             "Вы желаете сохраниться?",
@@ -143,21 +141,18 @@ void MainWindow::on_new_d_triggered(){ //кнопка new
         if (reply == QMessageBox::Cancel){
             return;}
     }
-    if ((flagSave && !flagChange) || (!flagSave && !flagChange)){ // сохранен -> не изменен
+    if ((flagSave && !flagChange) || (!flagSave && !flagChange)){ // сохранен -> не изменен или не сохранен -> не изменен
         New(); return; //сделать название
     }
-    if (!flagSave && flagChange){ // сохранен -> не изменен
-//        ui->lineEdit->setText("3");
+    if (!flagSave && flagChange){ // не сохранен -> изменен
         reply = QMessageBox::question(this, "Предупреждение",
             "Вы желаете сохраниться?",
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if (reply == QMessageBox::Yes){
-            saveAs(); New(); flagSave = 0; return;
-            //сделать название
+            saveAs(); New(); return;
             }
         if (reply == QMessageBox::No){
-            New(); flagSave = 0; flagChange = 0; return;
-            //сделать название
+            New(); return;
             }
         if (reply == QMessageBox::Cancel){
             return;}
@@ -181,7 +176,7 @@ void MainWindow::on_open_triggered(){ //кнопка open
     if ((flagSave && !flagChange) || (!flagSave && !flagChange)){ // сохранен -> не изменен или не сохранен -> не изменен
         open(); return;
     }
-    if (!flagSave && flagChange){ // сохранен -> не изменен
+    if (!flagSave && flagChange){ // не сохранен -> изменен
         reply = QMessageBox::question(this, "Предупреждение",
             "Вы желаете сохраниться?",
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
@@ -229,7 +224,7 @@ void MainWindow::on_exit_triggered(){ // кнопка выхода
     if ((flagSave && !flagChange) || (!flagSave && !flagChange)){ // сохранен -> не изменен или не сохранен -> не изменен
         exit(0);
     }
-    if (!flagSave && flagChange){ // сохранен -> не изменен
+    if (!flagSave && flagChange){ // не сохранен -> изменен
         reply = QMessageBox::question(this, "Предупреждение",
             "Вы желаете сохраниться?",
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
@@ -242,7 +237,6 @@ void MainWindow::on_exit_triggered(){ // кнопка выхода
         if (reply == QMessageBox::Cancel){
             return;}
     }
-
 }
 
 
