@@ -22,6 +22,8 @@ bool flagChange = 0; // статус изменений
 QByteArray ba; // массив
 QMessageBox::StandardButton reply; //ответ пользователя да/нет/отмена
 QString fileName;
+bool flagCancel = 0; // флаг прерывания в сохранить как
+bool flagThisNotChange = 0; // флаг для тех случаев когда открывется файл но не нужно фиксировать изменения
 
 // __________________________    ОПИСЫВАЕМ БЛОК ФУНКЦИОНИРОВАНИЯ
 
@@ -40,7 +42,7 @@ void MainWindow::open(){ //функция открыть
         QMessageBox::information(this, "Предупреждение", "Файл не выбран"); return;
     }
     else {
-        flagSave = 1; flagChange = 0;
+        flagSave = 1; flagChange = 0; flagThisNotChange = 1;
         ui->textEdit->clear(); // очищаем текстовое поле
         QFile file; // класс файлов
         file.setFileName(fileName); // связываем с файлом на диске
@@ -79,6 +81,8 @@ void MainWindow::saveAs(){ // функция сохранить как
     if (fileName.isEmpty()) //Файл не выбран
     {
         QMessageBox::information(this, "Предупреждение", "Файл не выбран");
+        flagCancel = 1;
+
     }
     else
     {
@@ -94,6 +98,7 @@ void MainWindow::saveAs(){ // функция сохранить как
 
 void MainWindow::on_textEdit_textChanged() // изменения
 {
+
     debug();
     flagChange = 1;
 
@@ -149,7 +154,12 @@ void MainWindow::on_new_d_triggered(){ //кнопка new
             "Вы желаете сохраниться?",
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if (reply == QMessageBox::Yes){
-            saveAs(); New(); return;
+            saveAs();
+            if(!flagCancel){
+            New();
+            }
+            flagCancel = 0;
+            return;
             }
         if (reply == QMessageBox::No){
             New(); return;
