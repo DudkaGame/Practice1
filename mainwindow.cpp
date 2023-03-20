@@ -41,8 +41,9 @@ void MainWindow::open(){ //функция открыть
         QMessageBox::information(this, "Предупреждение", "Файл не выбран"); return;
     }
     else {
-        flagSave = 1; flagChange = 0;
+        ui->textEdit->blockSignals(true);
         ui->textEdit->clear(); // очищаем текстовое поле
+        ui->textEdit->blockSignals(false);
         QFile file; // класс файлов
         file.setFileName(fileName); // связываем с файлом на диске
         file.open(QIODevice::ReadOnly); // открываем только на чтение
@@ -53,22 +54,23 @@ void MainWindow::open(){ //функция открыть
         ba = file.read(fileSize); // записываем в масссив file
         ui->textEdit->append(QString(ba).toUtf8()); // выводим текст на экран пользователю через расшифровку toUtf8
         file.close(); // закрываем файл
+        flagSave = 1; flagChange = 0;
     }
 }
 
 void MainWindow::New(){ // функция создать
-    flagSave = 0; flagChange = 0;
     ba.clear(); ui->textEdit->clear(); return;
+    flagSave = 0; flagChange = 0;
 }
 
 void MainWindow::save(){ // функция сохраниить
-    flagSave = 1; flagChange = 0;
     QString fileName; // путь к документу
     QFile file;
     file.setFileName(fileName); //связываем с файлом на диске
     file.open(QIODevice::WriteOnly); //открываем файл на запись
     file.write(ui->textEdit->toPlainText().toUtf8()); //Запись информации с текстового поля в файл
     file.close(); //закрываем файл
+    flagSave = 1; flagChange = 0;
 
 }
 
@@ -80,17 +82,15 @@ void MainWindow::saveAs(){ // функция сохранить как
     if (fileName.isEmpty()) //Файл не выбран
     {
         QMessageBox::information(this, "Предупреждение", "Файл не выбран");
-        flagCancel = 1;
-
     }
     else
     {
-        flagSave = 1; flagChange = 0;
         QFile file;
         file.setFileName(fileName); //связываем с файлом на диске
         file.open(QIODevice::WriteOnly); //открываем файл на запись
         file.write(ui->textEdit->toPlainText().toUtf8()); //Запись информации с текстового поля в файд
         file.close(); //закрываем файл
+        flagSave = 1; flagChange = 0;
 
     }
 }
