@@ -38,7 +38,7 @@ void MainWindow::open(){ //функция открыть
     tr("Открыть файл"), "D:\\Work\\Study\\Programming\\Qt_worked\\2_sem\\1_practice\\Doci", tr("Text files(*.txt)"));
 
     if (fileName == ""){
-        QMessageBox::information(this, "Предупреждение", "Файл не выбран"); return;
+        QMessageBox::information(this, "Предупреждение", "Файл не выбран");
     }
     else {
         ui->textEdit->blockSignals(true);
@@ -59,7 +59,9 @@ void MainWindow::open(){ //функция открыть
 }
 
 void MainWindow::New(){ // функция создать
-    ba.clear(); ui->textEdit->clear(); return;
+    ui->textEdit->blockSignals(true);
+    ba.clear(); ui->textEdit->clear();
+    ui->textEdit->blockSignals(false);
     flagSave = 0; flagChange = 0;
 }
 
