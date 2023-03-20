@@ -82,6 +82,8 @@ void MainWindow::saveAs(){ // функция сохранить как
     if (fileName.isEmpty()) //Файл не выбран
     {
         QMessageBox::information(this, "Предупреждение", "Файл не выбран");
+        flagCancel = 1;
+
     }
     else
     {
