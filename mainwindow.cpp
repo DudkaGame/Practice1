@@ -4,6 +4,7 @@
 #include "QMessageBox"
 #include "QMenuBar"
 #include "QFontDialog"
+#include "QSettings"
 #include <string>
 #include <QString>
 
@@ -13,6 +14,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle("NotePad  ©  ПОНОМАРЕВ ДИМИТРИЙ");
+    ui->lineEdit->hide();
+    ui->lineEdit_2->hide();
+    ui->lineEdit_3->hide();
+    ui->label->hide();
+    ui->label_2->hide();
+    ui->pushButton->hide();
+
 
 }
 
@@ -25,6 +33,10 @@ bool flagCancel = 0; // флаг прерывания в сохранить ка
 
 QString Nadpis = "";
 QString fileName;
+QFont m_lastFont;
+QSettings m_settings;
+QSettings settings;
+
 
 // __________________________    ОПИСЫВАЕМ БЛОК ФУНКЦИОНИРОВАНИЯ
 
@@ -276,5 +288,31 @@ void MainWindow::on_exit_triggered(){ // кнопка выхода
     }
 }
 
+void MainWindow::on_actionfont_triggered() // изменение текста
+{
 
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok, m_lastFont, this);
+    if (ok) {
+        ui->textEdit->setFont(font);
+
+        m_lastFont = font;
+        settings.setValue("lastFont", font.toString());
+    }
+}
+
+void MainWindow::on_copy_2_triggered() // копировать
+{
+    ui->textEdit->copy();
+}
+
+void MainWindow::on_paste_2_triggered() // вставить
+{
+    ui->textEdit->paste();
+}
+
+void MainWindow::on_cut_2_triggered() //вырезать
+{
+  ui->textEdit->cut();
+}
 

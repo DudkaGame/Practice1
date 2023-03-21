@@ -521,6 +521,10 @@
     <property name="title">
      <string>Изменения</string>
     </property>
+    <addaction name="actionfont"/>
+    <addaction name="copy_2"/>
+    <addaction name="paste_2"/>
+    <addaction name="cut_2"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu"/>
@@ -571,6 +575,26 @@
     <string>cut</string>
    </property>
    <property name="toolTip">
+    <string>cut</string>
+   </property>
+  </action>
+  <action name="actionfont">
+   <property name="text">
+    <string>font</string>
+   </property>
+  </action>
+  <action name="copy_2">
+   <property name="text">
+    <string>copy</string>
+   </property>
+  </action>
+  <action name="paste_2">
+   <property name="text">
+    <string>paste</string>
+   </property>
+  </action>
+  <action name="cut_2">
+   <property name="text">
     <string>cut</string>
    </property>
   </action>

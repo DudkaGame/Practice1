@@ -44,6 +44,15 @@ private slots:
 
 //    void changeDebug();
 
+    void on_actionfont_triggered();
+
+
+    void on_copy_2_triggered();
+
+    void on_paste_2_triggered();
+
+    void on_cut_2_triggered();
+
 private:
     Ui::MainWindow *ui;
 
