@@ -41,7 +41,6 @@ void MainWindow::open(){ //функция открыть
         QMessageBox::information(this, "Предупреждение", "Файл не выбран");
     }
     else {
-        Rename(fileName);
         ui->textEdit->blockSignals(true);
         ui->textEdit->clear(); // очищаем текстовое поле
         ui->textEdit->blockSignals(false);
@@ -56,6 +55,7 @@ void MainWindow::open(){ //функция открыть
         ui->textEdit->append(QString(ba).toUtf8()); // выводим текст на экран пользователю через расшифровку toUtf8
         file.close(); // закрываем файл
         flagSave = 1; flagChange = 0;
+        Rename(fileName);
     }
 }
 
