@@ -230,7 +230,11 @@ void MainWindow::on_open_triggered(){ //кнопка open
             "Вы желаете сохраниться?",
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if (reply == QMessageBox::Yes){
-            saveAs(); open(); return;
+            saveAs();
+            if(!flagCancel){
+            open();
+            }
+            return;
             }
         if (reply == QMessageBox::No){
             open(); return;
@@ -315,4 +319,3 @@ void MainWindow::on_cut_2_triggered() //вырезать
 {
   ui->textEdit->cut();
 }
-
