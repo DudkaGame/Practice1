@@ -40,10 +40,14 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void Rename(QString Strochka);
+
 //    void changeDebug();
 
 private:
     Ui::MainWindow *ui;
+
+    QString fileName = "";
 
 
 

@@ -21,8 +21,10 @@ bool flagSave = 0; // статус сохранения
 bool flagChange = 0; // статус изменений
 QByteArray ba; // массив
 QMessageBox::StandardButton reply; //ответ пользователя да/нет/отмена
-QString fileName;
 bool flagCancel = 0; // флаг прерывания в сохранить как
+
+QString Nadpis = "";
+QString fileName;
 
 // __________________________    ОПИСЫВАЕМ БЛОК ФУНКЦИОНИРОВАНИЯ
 
@@ -31,9 +33,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::open(){ //функция открыть
-
-    QString fileName; // путь к документу
+void MainWindow::open(){ //функция открыть    
     fileName = QFileDialog::getOpenFileName(this, \
     tr("Открыть файл"), "D:\\Work\\Study\\Programming\\Qt_worked\\2_sem\\1_practice\\Doci", tr("Text files(*.txt)"));
 
@@ -41,6 +41,7 @@ void MainWindow::open(){ //функция открыть
         QMessageBox::information(this, "Предупреждение", "Файл не выбран");
     }
     else {
+        Rename(fileName);
         ui->textEdit->blockSignals(true);
         ui->textEdit->clear(); // очищаем текстовое поле
         ui->textEdit->blockSignals(false);
@@ -61,23 +62,26 @@ void MainWindow::open(){ //функция открыть
 void MainWindow::New(){ // функция создать
     ui->textEdit->blockSignals(true);
     ba.clear(); ui->textEdit->clear();
+    this->setWindowTitle("NotePad  ©  ПОНОМАРЕВ ДИМИТРИЙ");
+    fileName = "";
     ui->textEdit->blockSignals(false);
     flagSave = 0; flagChange = 0;
+
+
 }
 
 void MainWindow::save(){ // функция сохраниить
-    QString fileName; // путь к документу
     QFile file;
     file.setFileName(fileName); //связываем с файлом на диске
     file.open(QIODevice::WriteOnly); //открываем файл на запись
     file.write(ui->textEdit->toPlainText().toUtf8()); //Запись информации с текстового поля в файл
     file.close(); //закрываем файл
+    Rename(fileName);
     flagSave = 1; flagChange = 0;
 
 }
 
 void MainWindow::saveAs(){ // функция сохранить как
-    QString fileName; // путь к документу
     fileName = QFileDialog::getSaveFileName(this, tr("Сохранить как"), \
     "D:\\Work\\Study\\Programming\\Qt_worked\\2_sem\\1_practice\\Doci", tr("Text files (*.txt)"));
 
@@ -94,6 +98,7 @@ void MainWindow::saveAs(){ // функция сохранить как
         file.open(QIODevice::WriteOnly); //открываем файл на запись
         file.write(ui->textEdit->toPlainText().toUtf8()); //Запись информации с текстового поля в файд
         file.close(); //закрываем файл
+        Rename(fileName);
         flagSave = 1; flagChange = 0;
 
     }
@@ -101,9 +106,18 @@ void MainWindow::saveAs(){ // функция сохранить как
 
 void MainWindow::on_textEdit_textChanged() // изменения
 {
-
     debug();
     flagChange = 1;
+    if(fileName != ""){
+        QFileInfo fileInfo(fileName);
+        QString Title= "";
+        Title = fileInfo.fileName();
+        this->setWindowTitle("*" + Title + "- NotePad  ©  ПОНОМАРЕВ ДИМИТРИЙ");
+    }
+    else{
+        this->setWindowTitle("*Без имени - NotePad  ©  ПОНОМАРЕВ ДИМИТРИЙ");
+    }
+
 
 //    ui->lineEdit_3->setText(fileName);
 //    if(!fileName.isEmpty()){
@@ -132,6 +146,16 @@ void MainWindow::on_pushButton_clicked()
 {
     debug();
 }
+
+void MainWindow::Rename(QString Strochka){
+    QFileInfo fileInfo(Strochka);
+    QString Title= "";
+    Title = fileInfo.fileName();
+    this->setWindowTitle(Title + " - " + "NotePad  ©  ПОНОМАРЕВ ДИМИТРИЙ");
+
+
+}
+
 
 // __________________________ ОПИСЫВАЕМ БЛОК ИНТЕРФЕЙСА
 
